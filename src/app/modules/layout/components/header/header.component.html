@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+  <mat-icon>accessible</mat-icon>
+  <a [routerLink]="['home']">{{ title }}</a>
+  <div style="margin: 10px;"></div>
+  <a [routerLink]="['home']" mat-button><mat-icon>domain</mat-icon> Home</a>
+  <a [routerLink]="['/routePath']" mat-button><mat-icon>people</mat-icon>About</a>
+  <a [routerLink]="['/routePath']" mat-button><mat-icon>assignment</mat-icon>People</a>
+  <div class="spacer"></div>
+  <a [routerLink]="['auth/signin']" mat-button>Sing In<mat-icon>account_box</mat-icon></a>
+</mat-toolbar>
