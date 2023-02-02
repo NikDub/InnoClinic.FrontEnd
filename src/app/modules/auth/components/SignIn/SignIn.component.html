@@ -1,0 +1,35 @@
+<div class="justcenter">
+  <h2>Sign In</h2>
+  <form [formGroup]="myForm" novalidate (submit)="submit()" class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput name="email" formControlName="email" />
+      <mat-error *ngIf="myForm.controls['email'].errors?.['required']">Please, enter the email </mat-error>
+      <mat-error *ngIf="myForm.controls['email'].errors?.['pattern']">You've entered an invalid email</mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput name="password" formControlName="password" [type]="hide ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="myForm.controls['password'].errors?.['required']">Please, enter the password</mat-error>
+      <mat-error *ngIf="myForm.controls['password'].errors?.['maxlength']"
+        >Password lenght can be 15 and less char</mat-error
+      >
+      <mat-error *ngIf="myForm.controls['password'].errors?.['minlength']"
+        >Password lenght can be 6 and more char</mat-error
+      >
+    </mat-form-field>
+    <div class="form-group">
+      <button mat-raised-button color="primary" [disabled]="myForm.invalid">SingIn</button>
+      <a mat-raised-button class="btn btn-default" [routerLink]="['/auth/signup']">SingUp</a>
+    </div>
+  </form>
+</div>

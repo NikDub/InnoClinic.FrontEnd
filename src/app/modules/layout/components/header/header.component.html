@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <mat-icon>accessible</mat-icon>
+  <a [routerLink]="['home']">{{ title }}</a>
+  <div style="margin: 10px"></div>
+  <a [routerLink]="['home']" mat-button><mat-icon>domain</mat-icon>Offices</a>
+  <a [routerLink]="['home']" mat-button><mat-icon>people</mat-icon>Doctors</a>
+  <a [routerLink]="['home']" mat-button><mat-icon>event</mat-icon>Schedule</a>
+  <a [routerLink]="['home']" mat-button><mat-icon>assignment</mat-icon>Services</a>
+  <div class="spacer"></div>
+  <div *ngIf="isAuth; else asd">
+    <a [routerLink]="['auth/signin']" mat-button>Profile
+      <mat-icon>account_box</mat-icon>
+    </a>
+    <a (click)="signOut()" mat-button>Sign Out
+      <mat-icon>logout</mat-icon>
+    </a>
+  </div>
+  <ng-template #asd>
+    <a [routerLink]="['auth/signin']" mat-button>Sign In
+      <mat-icon>account_box</mat-icon>
+    </a>
+  </ng-template>
+</mat-toolbar>
