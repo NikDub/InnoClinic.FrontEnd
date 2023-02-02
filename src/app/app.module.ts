@@ -9,11 +9,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from './modules/layout/layout.module';
 import { HomeModule } from './modules/home/home.module';
 import { ErrorsModule } from './modules/error-pages/errors.module';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
   exports: [MatSidenavModule, MatToolbarModule],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
   imports: [
     RouterModule,
@@ -24,7 +34,11 @@ import { ErrorsModule } from './modules/error-pages/errors.module';
     MatToolbarModule,
     LayoutModule,
     HomeModule,
-    ErrorsModule
+    ErrorsModule,
+    FormsModule,
+    HttpClientModule,
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class AppModule {}

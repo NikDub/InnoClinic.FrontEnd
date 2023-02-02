@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
-  {  path: "**", component: ForbiddenComponent },
+  {  path: "forbidden", component: ForbiddenComponent },
 ];
 
 @NgModule({
