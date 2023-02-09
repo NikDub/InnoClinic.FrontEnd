@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, take, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
+import { SignInComponent } from 'src/app/modules/auth/components/SignIn/SignIn.component';
 import { IdentityService } from 'src/app/shared/services/identity/identity.service';
 
 @Component({
@@ -9,10 +11,11 @@ import { IdentityService } from 'src/app/shared/services/identity/identity.servi
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isAuth: boolean;
+  isSchedule: boolean = false;
   ngUnsubscribe$ = new Subject();
   title = 'InnoClinic';
-  authService:IdentityService;
-  constructor(private identityService: IdentityService) {
+  authService: IdentityService;
+  constructor(identityService: IdentityService, public dialog: MatDialog) {
     this.authService = identityService;
   }
 
@@ -20,18 +23,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.isAuth$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => (this.isAuth = res));
   }
 
-  signOut(){
+  signOut() {
     this.authService.SignOut().subscribe(
-      (res:any) => {
+      (res: any) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         this.authService.isAuth$.next(false);
-        console.log(res);
+        this.authService.roles$.next(null);
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  openSignInDialog() {
+    this.dialog.open(SignInComponent, {
+      height: '265px',
+      width: '500px'
+    });
   }
 
   ngOnDestroy(): void {

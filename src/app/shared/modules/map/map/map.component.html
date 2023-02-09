@@ -1,0 +1,9 @@
+<div (mouseenter)="isShow = true" (mouseleave)="isShow = false">
+  {{ getOfficeAddress(office) }}
+  <div *ngIf="isShow" class="container">
+    <ya-map [center]="office.location" [zoom]="16"  [state]="{ controls: [] }">
+      <ya-control type="ZoomControl" ></ya-control>
+      <ya-placemark [geometry]="office.location"></ya-placemark>
+    </ya-map>
+  </div>
+</div>

@@ -5,7 +5,7 @@ export const microserviceURI = {
   profilesUri: 'https://localhost:7016/api',
   scheduleUri: 'https://localhost:7222/api/Appointments',
   servicesUri: 'https://localhost:7249/api',
-  gatewayUri: 'https://localhost:7296'
+  gatewayUri: 'https://localhost:7296/gateway'
 };
 
 export const microservicePartPath = {

@@ -1,0 +1,44 @@
+<!-- <div > -->
+<form [formGroup]="searchForm" class="search__form">
+  <mat-form-field class="search__form_field" appearance="outline">
+    <mat-label>Full Name</mat-label>
+    <input type="text" aria-label="Full Name" matInput formControlName="fullName" (keyup)="applyFilter()" />
+  </mat-form-field>
+  <mat-form-field class="search__form_field" appearance="outline">
+    <mat-label>Specialization</mat-label>
+    <input type="text" aria-label="Specialization" matInput formControlName="specialization" (keyup)="applyFilter()" />
+  </mat-form-field>
+  <mat-form-field class="search__form_field" appearance="outline">
+    <mat-label>Office</mat-label>
+    <input type="text" aria-label="office" matInput formControlName="office" (keyup)="applyFilter()" />
+  </mat-form-field>
+  <button mat-icon-button (click)="clearFilter()">
+    <mat-icon>delete_sweep</mat-icon>
+  </button>
+</form>
+
+<mat-grid-list cols="3" rowHeight="300px" gutterSize="0px">
+  <mat-grid-tile *ngFor="let item of filteredData">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>{{ item.firstName }}</mat-card-title>
+          <mat-card-subtitle>{{ item.middleName }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ item.lastName }}</mat-card-subtitle>
+          <img mat-card-lg-image src="{{ item.photoUrl }}" />
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        {{ getExperience(item.careerStartYear) }}
+      </mat-card-content>
+      <mat-card-content>
+        {{ item.specialization.name }}
+      </mat-card-content>
+      <mat-card-content>
+        <app-map [Office]="item.office">
+        </app-map>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<!-- </div> -->

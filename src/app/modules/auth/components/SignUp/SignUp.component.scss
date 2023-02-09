@@ -18,11 +18,15 @@
 }
 
 .justcenter{
+  color: white;
   display: flex;
   justify-content: center;
-  margin-top: 10%;
   flex-direction: column;
   align-items: center;
+}
+
+h2{
+  margin-top: 15px;
 }
 
 

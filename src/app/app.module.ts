@@ -15,15 +15,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ServicesModule } from './modules/services/services.module';
+import { MapModule } from './shared/modules/map/map.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
-  exports: [MatSidenavModule, MatToolbarModule],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
+  exports: [MatSidenavModule, MatToolbarModule, MatDatepickerModule, MatNativeDateModule],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
   imports: [
     RouterModule,
@@ -38,7 +42,13 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServicesModule,
+    MapModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class AppModule {}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { checkEmailInSystemValidator } from 'src/app/shared/asyncvalidators/asyncValidators';
 import { IdentityService } from 'src/app/shared/services/identity/identity.service';
 
 @Component({
@@ -9,11 +11,11 @@ import { IdentityService } from 'src/app/shared/services/identity/identity.servi
 })
 export class SignUpComponent implements OnInit {
   hide = true;
-  authServer: IdentityService;
+  identityService: IdentityService;
 
   myForm: FormGroup;
-  constructor(authServer: IdentityService) {
-    this.authServer = authServer;
+  constructor(identityService: IdentityService, public dialog: MatDialog) {
+    this.identityService = identityService;
   }
   ngOnInit() {
     this.myForm = this.initForm();
@@ -31,8 +33,11 @@ export class SignUpComponent implements OnInit {
   private initForm(): FormGroup {
     return new FormGroup({
       email: new FormControl(
-        '',
-        Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])
+        '',{
+          validators:[Validators.required,
+            Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
+            asyncValidators:[checkEmailInSystemValidator(this.identityService)]
+        }
       ),
       password: new FormControl(
         '',
@@ -43,12 +48,12 @@ export class SignUpComponent implements OnInit {
   }
 
   submit() {
-    this.authServer.SignUp(this.myForm.value).subscribe(
-      (res:any) => {
+    this.identityService.SignUp(this.myForm.value).subscribe(
+      (res: any) => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
-        this.authServer.isAuth$.next(true);
-        console.log(res);
+        this.identityService.isAuth$.next(true);
+        this.dialog.closeAll();
       },
       err => {
         console.log(err);

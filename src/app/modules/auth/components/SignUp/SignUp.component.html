@@ -6,6 +6,7 @@
       <input type="email" matInput name="email" formControlName="email" />
       <mat-error *ngIf="myForm.controls['email'].errors?.['required']">Please, enter the email </mat-error>
       <mat-error *ngIf="myForm.controls['email'].errors?.['pattern']">You've entered an invalid email</mat-error>
+      <mat-error *ngIf="myForm.controls['email'].errors?.['invalidEmail']">User with this email already exists</mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>Password</mat-label>
@@ -50,7 +51,7 @@
     </mat-form-field>
     <div class="form-group">
       <button mat-raised-button color="primary" [disabled]="myForm.invalid">SingUp</button>
-      <a mat-raised-button class="btn btn-default" [routerLink]="['/auth/signin']">SingIn</a>
+      <a mat-raised-button class="btn btn-default" (click)="identityService.openSignInDialog()">SingIn</a>
     </div>
   </form>
 </div>
