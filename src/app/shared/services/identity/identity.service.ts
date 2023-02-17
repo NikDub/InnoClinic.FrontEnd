@@ -15,10 +15,15 @@ export class IdentityService {
   helper = new JwtHelperService();
   isAuth$ = new BehaviorSubject<boolean>(!!localStorage.getItem('accessToken'));
   roles$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  id$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   constructor(private httpClient: HttpClient, public dialog: MatDialog) {
     if (localStorage.getItem('accessToken') != null)
-      this.roles$ = new BehaviorSubject<string>(this.helper.decodeToken(localStorage.getItem('accessToken')).roles);
+    {
+      const token = this.helper.decodeToken(localStorage.getItem('accessToken'));
+      this.roles$ = new BehaviorSubject<string>(token.roles);
+      this.id$ = new BehaviorSubject<string>(token.sub);
+    }
   }
 
   SignIn(data: any) {
@@ -50,7 +55,6 @@ export class IdentityService {
     return this.httpClient.get(microserviceURI.identityUri + '/Auth/IsEmailExists?email=' + email);
   }
 
-
   openSignInDialog() {
     this.dialog.closeAll();
     this.dialog.open(SignInComponent, {
@@ -67,7 +71,15 @@ export class IdentityService {
     });
   }
 
-  isReceptionost(){
+  isReceptionost() {
     return this.roles$.value == Roles.Receptionist;
+  }
+
+  isDoctor() {
+    return this.roles$.value == Roles.Doctor;
+  }
+
+  isPatient() {
+    return this.roles$.value == Roles.Patient;
   }
 }

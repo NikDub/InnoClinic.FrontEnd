@@ -15,5 +15,7 @@ export const microservicePartPath = {
   photoDocuments: '/Documents',
   photoResult: '/Results',
   serviceServices: '/Services',
-  serviceSpecializations: '/Specializations'
+  serviceSpecializations: '/Specializations',
+  serviceAppointment: '/Appointments',
+  InfoForCreateAppointment: '/InfoForCreateAppointment'
 };

@@ -1,4 +1,3 @@
-<!-- <div > -->
 <form [formGroup]="searchForm" class="search__form">
   <mat-form-field class="search__form_field" appearance="outline">
     <mat-label>Full Name</mat-label>
@@ -17,8 +16,8 @@
   </button>
 </form>
 
-<mat-grid-list cols="3" rowHeight="300px" gutterSize="0px">
-  <mat-grid-tile *ngFor="let item of filteredData">
+<mat-grid-list *ngIf="isLoad" cols="3" rowHeight="300px" gutterSize="0px">
+  <mat-grid-tile *ngFor="let item of filteredData; trackBy:trackByFnIndex">
     <mat-card class="example-card">
       <mat-card-header>
         <mat-card-title-group>
@@ -41,4 +40,5 @@
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
-<!-- </div> -->
+
+<app-loader *ngIf="!isLoad"></app-loader>

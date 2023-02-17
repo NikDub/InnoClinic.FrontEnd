@@ -1,0 +1,92 @@
+<div class="justcenter">
+  <h2>Create Appointment</h2>
+  <form [formGroup]="myForm" novalidate (submit)="submit()" class="example-form">
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Specialization</mat-label>
+      <input
+        type="text"
+        matInput
+        name="specialization"
+        formControlName="specialization"
+        [matAutocomplete]="auto1"
+        required
+      />
+      <mat-error *ngIf="myForm.controls['specialization'].errors?.['required']">Please, choose the specialisation</mat-error>
+      <mat-error *ngIf="myForm.controls['specialization'].errors?.['invalidAutocompleteString']">Invalid specialization name</mat-error>
+      <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displaySpecialization">
+        <mat-option *ngFor="let option of specializationListObservable | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Doctor</mat-label>
+      <input
+        type="text"
+        matInput
+        name="doctor"
+        formControlName="doctor"
+        [matAutocomplete]="auto2"
+        required
+      />
+      <mat-error *ngIf="myForm.controls['doctor'].errors?.['required']">Please, choose the specialisation</mat-error>
+      <mat-error *ngIf="myForm.controls['doctor'].errors?.['invalidAutocompleteString']">Invalid specialization name</mat-error>
+      <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayDoctor">
+        <mat-option *ngFor="let option of doctorListObservable | async" [value]="option">
+          {{ option.firstName }} {{ option.middleName }} {{ option.lastName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Service</mat-label>
+      <input
+      type="text"
+      matInput
+      name="service"
+      formControlName="service"
+      [matAutocomplete]="auto3"
+      required
+    />
+    <mat-error *ngIf="myForm.controls['service'].errors?.['required']">Please, choose the specialisation</mat-error>
+    <mat-error *ngIf="myForm.controls['service'].errors?.['invalidAutocompleteString']">Invalid specialization name</mat-error>
+    <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayService">
+      <mat-option *ngFor="let option of serviceListObservable | async" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Office</mat-label>
+      <mat-select name="office" formControlName="office" required >
+        <mat-option *ngFor="let office of officeList" [value]="office">
+          {{ office.city }}, {{ office.street }} {{ office.houseNumber }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="myForm.controls['office'].errors?.['required']">Please, choose the office</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" name="date" formControlName="date" [min]="minDate" [max]="maxDate" required readonly [matDatepickerFilter]="filterDate" (dateChange)="chooseDate($event)"/>
+      <mat-error *ngIf="myForm.controls['date'].errors?.['required']">Please, select the date </mat-error>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Time slots</mat-label>
+      <input matInput name="time_slots" formControlName="time_slots"/>
+      <a matSuffix mat-icon-button (click)="openTimeDialog()" [disabled]="isTimeDisabled">
+        <mat-icon>access_time</mat-icon>
+      </a>
+    </mat-form-field>
+
+    <div class="form-group">
+      <button mat-raised-button color="primary" [disabled]="myForm.invalid">Confirm</button>
+    </div>
+  </form>
+</div>

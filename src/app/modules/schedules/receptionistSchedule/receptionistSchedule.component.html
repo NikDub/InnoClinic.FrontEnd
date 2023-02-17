@@ -1,0 +1,123 @@
+<div class="justcenter">
+  <div *ngIf="isLoad">
+    <form [formGroup]="searchForm" class="search__form">
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Doctor Full Name</mat-label>
+        <input type="text" aria-label="Full Name" matInput formControlName="fullName" (keyup)="applyFilter()" />
+      </mat-form-field>
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Appointment Date</mat-label>
+        <input
+          type="text"
+          aria-label="date"
+          matInput
+          formControlName="date"
+          (dateChange)="applyFilter()"
+          [matDatepicker]="picker"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Service</mat-label>
+        <mat-select name="service" formControlName="service" (selectionChange)="applyFilter()">
+          <mat-option *ngFor="let service of distinctServices()" [value]="service">
+            {{ service }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select name="status" formControlName="status" (selectionChange)="applyFilter()">
+          <mat-option *ngFor="let status of statusList" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Office</mat-label>
+        <mat-select name="office" formControlName="office" (selectionChange)="applyFilter()">
+          <mat-option *ngFor="let office of distinctOffices()" [value]="office">
+            {{ office.city }}, {{ office.street }} {{ office.houseNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button (click)="clearFilter()">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </form>
+
+    <div class="change-controls">
+      <a mat-fab extended color="primary" (click)="addAppointment()">
+        <mat-icon>assignment</mat-icon>Create an appointment</a
+      >
+    </div>
+    <table mat-table [dataSource]="matsort" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="Time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+        <td mat-cell *matCellDef="let element">{{ element.time }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Doctor Full Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Doctor Full Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.doctorFirstName }} {{ element.DoctorMiddleName }} {{ element.doctorLastName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Patient Full Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Patient Full Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.patientFirstName }} {{ element.patientMiddleName }} {{ element.patientLastName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Patient's phone number">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Patient's phone number</th>
+        <td mat-cell *matCellDef="let element">{{ element.accountPhoneNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Service Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Service Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.serviceName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">{{ statusToText(element.status) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Approve">
+        <th mat-header-cell *matHeaderCellDef>Approve</th>
+        <td mat-cell *matCellDef="let element">
+          <button *ngIf="element.status == false" mat-icon-button (click)="approveAppointmentStatus(element)">
+            <mat-icon>done</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Cancel">
+        <th mat-header-cell *matHeaderCellDef>Cancel</th>
+        <td mat-cell *matCellDef="let element">
+          <button *ngIf="element.status == false" mat-icon-button (click)="canceledAppointmentStatus(element)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ReSchedule">
+        <th mat-header-cell *matHeaderCellDef>ReSchedule</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="rescheduleApointment(element)">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <app-loader *ngIf="!isLoad"></app-loader>
+</div>

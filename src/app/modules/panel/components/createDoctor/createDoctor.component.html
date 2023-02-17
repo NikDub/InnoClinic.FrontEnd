@@ -3,10 +3,12 @@
   <form [formGroup]="myForm" novalidate (submit)="submit()" class="example-form">
     <mat-form-field class="example-full-width">
       <mat-label>Email</mat-label>
-      <input type="email" matInput name="email" formControlName="email" />
+      <input type="email" matInput name="email" formControlName="email" on-focusout="checkEmailInSystem()" />
       <mat-error *ngIf="myForm.controls['email'].errors?.['required']">Please, enter the email </mat-error>
       <mat-error *ngIf="myForm.controls['email'].errors?.['pattern']">You've entered an invalid email</mat-error>
-      <mat-error *ngIf="myForm.controls['email'].errors?.['invalidEmail']">User with this email already exists</mat-error>
+      <mat-error *ngIf="myForm.controls['email'].errors?.['invalidEmail']"
+        >User with this email already exists</mat-error
+      >
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>Photo</mat-label>
@@ -38,38 +40,63 @@
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
     <mat-form-field class="example-full-width">
       <mat-label>Specialization</mat-label>
-      <input type="text" matInput name="specialization" formControlName="specialization" [matAutocomplete]="auto"/>
-      <mat-error *ngIf="myForm.controls['specialization'].errors?.['required']">Please, choose the specialisation </mat-error>
-      <mat-error *ngIf="myForm.controls['specialization'].errors?.['invalidAutocompleteString']">Invalid specialization name</mat-error>
-      <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let option of filteredOptions|async"  [value]="option">
+      <input
+        type="text"
+        matInput
+        name="specialization"
+        formControlName="specialization"
+        [matAutocomplete]="auto"
+        required
+      />
+      <mat-error *ngIf="myForm.controls['specialization'].errors?.['required']"
+        >Please, choose the specialisation
+      </mat-error>
+      <mat-error *ngIf="myForm.controls['specialization'].errors?.['invalidAutocompleteString']"
+        >Invalid specialization name</mat-error
+      >
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{ option.name }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
+
     <mat-form-field class="example-full-width">
       <mat-label>office</mat-label>
       <mat-select name="office" formControlName="office">
         <mat-option *ngFor="let office of officeList" [value]="office">
-          {{office.city}}, {{office.street}} {{office.houseNumber}}
+          {{ office.city }}, {{ office.street }} {{ office.houseNumber }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="myForm.controls['office'].errors?.['required']">Please, choose the office</mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width" appDatepickerOnlyYear>
       <mat-label>careerStratYear</mat-label>
-      <input matInput [matDatepicker]="pickerYear" name="careerStratYear" [max]="maxDate" [min]="minDate" formControlName="careerStratYear">
+      <input
+        matInput
+        [matDatepicker]="pickerYear"
+        name="careerStratYear"
+        [max]="maxDate"
+        [min]="minDate"
+        formControlName="careerStratYear"
+      />
       <mat-error *ngIf="myForm.controls['office'].errors?.['required']">Please, select the year</mat-error>
       <mat-datepicker-toggle matSuffix [for]="pickerYear"></mat-datepicker-toggle>
-      <mat-datepicker #pickerYear startView="multi-year" startAt="startYear" (yearSelected)="chooseYear($event, pickerYear)"></mat-datepicker>
+      <mat-datepicker
+        #pickerYear
+        startView="multi-year"
+        startAt="startYear"
+        (yearSelected)="chooseYear($event, pickerYear)"
+      ></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>status</mat-label>
       <mat-select name="status" formControlName="status">
         <mat-option *ngFor="let status of statusList" [value]="status">
-          {{status}}
+          {{ status }}
         </mat-option>
       </mat-select>
     </mat-form-field>

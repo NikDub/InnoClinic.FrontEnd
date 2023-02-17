@@ -1,0 +1,32 @@
+.example-form {
+  min-width: 350px;
+  max-width: 350px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  justify-content: center;
+  button {
+    margin: 0 5px;
+    display: block;
+  }
+}
+
+.justcenter{
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  h2{
+    margin-top: 15px;
+  }
+}
+
+
+

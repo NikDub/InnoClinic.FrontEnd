@@ -7,6 +7,7 @@ import { ServicesService } from 'src/app/shared/services/services/services.servi
   styleUrls: ['./servicesByCategory.component.scss']
 })
 export class ServicesByCategoryComponent implements OnInit {
+  isLoad = false;
   data: any;
   displayedColumns: string[] = ['name', 'price'];
   services: ServicesService;
@@ -29,6 +30,7 @@ export class ServicesByCategoryComponent implements OnInit {
           }
         });
         this.data.consultations = map;
+        this.isLoad = true;
       },
       err => console.log(err)
     );

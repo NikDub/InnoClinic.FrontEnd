@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (localStorage.getItem('accessToken') != null) {
-      var roles = route.data['Roles'] as Array<string>;
+      const roles = route.data['Roles'] as Array<string>;
       if (roles) {
         if (roles.some(r => r == this.identityServise.roles$.value)) {
           return true;

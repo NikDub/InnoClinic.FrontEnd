@@ -9,6 +9,7 @@ import { DoctorsService } from 'src/app/shared/services/profiles/doctors.service
   styleUrls: ['./doctorsList.component.scss']
 })
 export class DoctorsListComponent implements OnInit {
+  isLoad = false;
   doctorService: DoctorsService;
   dataSource = new Array<DoctorsWithPhotoAndOffice>();
   filteredData = new Array<DoctorsWithPhotoAndOffice>();
@@ -17,12 +18,16 @@ export class DoctorsListComponent implements OnInit {
     this.doctorService = doctorService;
   }
 
+  trackByFnIndex(index:any, item:any) {
+    return index
+  }
   ngOnInit() {
     this.searchFormInit();
     this.doctorService.getDoctorsWithPhotoUrlAndOffice().subscribe(
       res => {
         this.dataSource = res as Array<DoctorsWithPhotoAndOffice>;
         this.filteredData = this.dataSource;
+        this.isLoad = true
       },
       err => {
         console.log(err);

@@ -21,12 +21,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { SchedulesModule } from './modules/schedules/schedules.module';
+import { LoaderModule } from './shared/modules/loader/loader.module';
+import { TimePickerCustomModule } from './shared/modules/timePickerCustom/timePickerCustom.module';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
-  exports: [MatSidenavModule, MatToolbarModule, MatDatepickerModule, MatNativeDateModule],
+  exports: [MatSidenavModule, MatToolbarModule, MatDatepickerModule, MatNativeDateModule, LoaderModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
   imports: [
@@ -48,7 +51,10 @@ registerLocaleData(en);
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    SchedulesModule,
+    LoaderModule,
+    TimePickerCustomModule
   ]
 })
 export class AppModule {}

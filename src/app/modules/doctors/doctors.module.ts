@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MapModule } from "../../shared/modules/map/map.module";
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
 @NgModule({
     declarations: [DoctorsListComponent],
     imports: [
@@ -22,7 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatInputModule,
         MapModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        LoaderModule
     ]
 })
 export class DoctorsModule {}

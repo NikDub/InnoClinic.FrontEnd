@@ -1,0 +1,63 @@
+<div class="justcenter">
+  <div *ngIf="isLoad">
+
+    <form [formGroup]="searchForm" class="search__form">
+      <mat-form-field class="search__form_field" appearance="outline">
+        <mat-label>Appointment Date</mat-label>
+        <input
+          type="text"
+          aria-label="date"
+          matInput
+          formControlName="date"
+          (dateChange)="applyFilter()"
+          [matDatepicker]="picker"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button mat-icon-button (click)="clearFilter()">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </form>
+
+    <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
+      <ng-container matColumnDef="Time">
+        <th mat-header-cell *matHeaderCellDef>Time</th>
+        <td mat-cell *matCellDef="let element">{{ element.time }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Patient Full Name">
+        <th mat-header-cell *matHeaderCellDef>Patient Full Name</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="viewPatientProfile()" disabled="{{!element.status}}">
+            {{ element.patientFirstName }} {{ element.patientMiddleName }} {{ element.patientLastName }}
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Service Name">
+        <th mat-header-cell *matHeaderCellDef>Service Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.serviceName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">{{ statusToText(element.status) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Result">
+        <th mat-header-cell *matHeaderCellDef>Result</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="viewResult()">
+            <mat-icon>description</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <app-loader *ngIf="!isLoad"></app-loader>
+</div>

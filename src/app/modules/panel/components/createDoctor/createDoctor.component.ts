@@ -1,26 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import * as moment from 'moment';
 import { map, Observable } from 'rxjs';
 import { DoctorStatus } from 'src/app/shared/enums/status';
+import { DoctorForCreatedAggregated } from 'src/app/shared/models/aggregation/doctorForCreatedAggregated';
 import { Office } from 'src/app/shared/models/offices/Office';
 import { Specialization } from 'src/app/shared/models/services/specialization';
+import { AggregatorsService } from 'src/app/shared/services/aggregators/aggregators.service';
+import { IdentityService } from 'src/app/shared/services/identity/identity.service';
 import { OfficesService } from 'src/app/shared/services/offices/offices.service';
 import { SpecializationsService } from 'src/app/shared/services/services/specializations.service';
-import { IdentityService } from 'src/app/shared/services/identity/identity.service';
-import { checkEmailInSystemValidator } from 'src/app/shared/asyncvalidators/asyncValidators';
-import { DoctorForCreatedAggregated } from 'src/app/shared/models/aggregation/doctorForCreatedAggregated';
-import { AggregatorsService } from 'src/app/shared/services/aggregators/aggregators.service';
 
 @Component({
   selector: 'app-createDoctor',
@@ -77,8 +68,7 @@ export class CreateDoctorComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       email: new FormControl('', {
-        validators: [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
-        asyncValidators: [checkEmailInSystemValidator(this.identityService)]
+        validators: [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]
       }),
       specialization: new FormControl(
         '',
@@ -126,21 +116,20 @@ export class CreateDoctorComponent implements OnInit {
   }
 
   submit() {
-    var date: Date = moment(this.myForm.value.dateOfBirth, 'DD/MM/yyyy').toDate();
-    var modelForSend: DoctorForCreatedAggregated = {
+    const date: Date = moment(this.myForm.value.dateOfBirth, 'DD/MM/yyyy').toDate();
+    const modelForSend: DoctorForCreatedAggregated = {
       FirstName: this.myForm.value.firstName,
       LastName: this.myForm.value.lastName,
       MiddleName: this.myForm.value.middleName,
       DateOfBirth: date,
       CareerStartYear: this.myForm.value.careerStratYear,
       SpecializationId: this.myForm.value.specialization.id,
-      Status: { Name: this.myForm.value.status.replaceAll(" ", "") },
+      Status: { Name: this.myForm.value.status.replaceAll(' ', '') },
       OfficeId: this.myForm.value.office.id,
       Email: this.myForm.value.email,
       Photo: {
         FileName: this.myForm.value.photo,
-        Value: btoa(
-          new Uint8Array(this.srcResult).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+        Value: btoa(new Uint8Array(this.srcResult).reduce((data, byte) => data + String.fromCharCode(byte), ''))
       }
     };
     this.aggregatorsService.CreateDoctor(modelForSend).subscribe(
@@ -157,7 +146,7 @@ export class CreateDoctorComponent implements OnInit {
     const inputNode: any = document.querySelector('#file');
 
     if (typeof FileReader !== 'undefined') {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = (e: any) => {
         this.srcResult = e.target.result;
@@ -171,13 +160,26 @@ export class CreateDoctorComponent implements OnInit {
   clearFileSelected() {
     this.srcResult = null;
     this.myForm.get('photo').setValue('');
-    var inputNode: any = document.querySelector('#file');
+    let inputNode: any = document.querySelector('#file');
     inputNode.value = null;
   }
 
   chooseYear(year: any, datepicker: any) {
-    var tempDate = Number(JSON.stringify(year).replace('"', '').split('-')[0]) + 1;
+    const tempDate = Number(JSON.stringify(year).replace('"', '').split('-')[0]) + 1;
     this.myForm.get('careerStratYear').setValue(tempDate.toString());
     datepicker.close();
+  }
+
+  checkEmailInSystem() {
+    let control = this.myForm.get('email');
+    if (control.value) {
+      this.identityService.isEmailExists(control.value).subscribe((res: any) => {
+        if (res as boolean) {
+          control.setErrors({ invalidEmail: true });
+        } else {
+          control.setErrors(null);
+        }
+      });
+    }
   }
 }

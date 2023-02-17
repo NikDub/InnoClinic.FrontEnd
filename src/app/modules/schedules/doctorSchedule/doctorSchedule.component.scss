@@ -1,0 +1,30 @@
+.justcenter {
+  color: white;
+  width: 1000px;
+  margin: auto;
+}
+
+.change-controls {
+  margin: 10px 0;
+}
+
+mat-grid-list {
+  margin: auto;
+  width: 70%;
+}
+
+.search {
+  &__form {
+    display: flex;
+    button {
+      margin-top: 5px;
+    }
+    &_field {
+      width: 200px;
+      margin: 0 8px 16px 8px;
+    }
+  }
+  &__table {
+    margin: 0 18px 18px 18px;
+  }
+}

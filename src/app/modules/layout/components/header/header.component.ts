@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { SignInComponent } from 'src/app/modules/auth/components/SignIn/SignIn.component';
+import { CreateAppointmentComponent } from 'src/app/modules/schedules/createAppointment/createAppointment.component';
 import { IdentityService } from 'src/app/shared/services/identity/identity.service';
 
 @Component({
@@ -40,6 +41,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   openSignInDialog() {
     this.dialog.open(SignInComponent, {
       height: '265px',
+      width: '500px'
+    });
+  }
+
+  openModalCreateAppointment(){
+    this.dialog.open(CreateAppointmentComponent, {
+      height: '600px',
       width: '500px'
     });
   }
