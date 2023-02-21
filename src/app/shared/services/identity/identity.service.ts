@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
 import { SignInComponent } from 'src/app/modules/auth/components/SignIn/SignIn.component';
 import { SignUpComponent } from 'src/app/modules/auth/components/SignUp/SignUp.component';
 import { Roles } from '../../enums/roles';
+import { CustomEncoder } from '../../extensions/CustomEncoder';
 import { microserviceURI } from '../../MicroserviceURI';
 
 @Injectable({
@@ -18,8 +19,11 @@ export class IdentityService {
   id$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   constructor(private httpClient: HttpClient, public dialog: MatDialog) {
-    if (localStorage.getItem('accessToken') != null)
-    {
+    this.updateIdAndRole();
+  }
+
+  updateIdAndRole(){
+    if (localStorage.getItem('accessToken') != null) {
       const token = this.helper.decodeToken(localStorage.getItem('accessToken'));
       this.roles$ = new BehaviorSubject<string>(token.roles);
       this.id$ = new BehaviorSubject<string>(token.sub);
@@ -53,6 +57,13 @@ export class IdentityService {
 
   isEmailExists(email: string) {
     return this.httpClient.get(microserviceURI.identityUri + '/Auth/IsEmailExists?email=' + email);
+  }
+
+  confirmEmail(email: string, token: string) {
+    let params = new HttpParams({ encoder: new CustomEncoder() });
+    params = params.append('token', token);
+    params = params.append('email', email);
+    return this.httpClient.get(microserviceURI.identityUri + '/Auth/ConfirmEmail', { params: params });
   }
 
   openSignInDialog() {

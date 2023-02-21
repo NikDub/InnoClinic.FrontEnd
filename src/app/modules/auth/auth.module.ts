@@ -9,9 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { SignUpComponent } from './components/SignUp/SignUp.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AuthRoutes } from './auth.routing';
+import { EmailConfirmComponent } from './components/emailConfirm/emailConfirm.component';
 
 @NgModule({
-  declarations: [SignInComponent, SignUpComponent],
+  declarations: [SignInComponent, SignUpComponent, EmailConfirmComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,7 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     FormsModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    AuthRoutes,
   ]
 })
 export class AuthModule {}

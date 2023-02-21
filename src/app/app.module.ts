@@ -24,6 +24,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { SchedulesModule } from './modules/schedules/schedules.module';
 import { LoaderModule } from './shared/modules/loader/loader.module';
 import { TimePickerCustomModule } from './shared/modules/timePickerCustom/timePickerCustom.module';
+import { PatientsModule } from './modules/patients/patients.module';
+import { DialogModule } from './shared/modules/dialog/dialog.module';
 
 registerLocaleData(en);
 
@@ -54,7 +56,9 @@ registerLocaleData(en);
     MatSelectModule,
     SchedulesModule,
     LoaderModule,
-    TimePickerCustomModule
+    TimePickerCustomModule,
+    PatientsModule,
+    DialogModule
   ]
 })
 export class AppModule {}

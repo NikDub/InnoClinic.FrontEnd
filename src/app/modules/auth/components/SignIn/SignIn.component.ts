@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IdentityService } from 'src/app/shared/services/identity/identity.service';
-import { SignUpComponent } from '../SignUp/SignUp.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-SignIn',
@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit {
     )
   });
 
-  constructor(authServer: IdentityService, public dialog: MatDialog) {
+  constructor(authServer: IdentityService, public dialog: MatDialog, private router: Router) {
     this.authServer = authServer;
   }
 
@@ -38,9 +38,14 @@ export class SignInComponent implements OnInit {
         localStorage.setItem('refreshToken', res.refreshToken);
         this.authServer.roles$.next(this.helper.decodeToken(res.accessToken).roles);
         this.authServer.isAuth$.next(true);
+        this.authServer.updateIdAndRole();
         this.dialog.closeAll();
       },
       err => {
+        if (err.error == 'Your email has not been confirmed.') {
+          this.router.navigate(['/error/confirmEmail']);
+          this.dialog.closeAll();
+        }
         console.log(err);
       }
     );

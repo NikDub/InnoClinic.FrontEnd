@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'schedule' ,   loadChildren: () => import('./modules/schedules/schedules.module').then(m=>m.SchedulesModule)},
   { path: 'auth' , loadChildren: () => import('./modules/auth/auth.module').then(m=>m.AuthModule) },
   { path: 'doctors' , loadChildren: () => import('./modules/doctors/doctors.module').then(m=>m.DoctorsModule) },
+  { path: 'patients' , loadChildren: () => import('./modules/patients/patients.module').then(m=>m.PatientsModule) },
   { path: 'panel' , loadChildren: () => import('./modules/panel/panel.module').then(m=>m.PanelModule) },
   { path: 'error' , loadChildren: () => import('./modules/error-pages/errors.module').then(m=>m.ErrorsModule) },
   { path: '**' , redirectTo: 'home' },

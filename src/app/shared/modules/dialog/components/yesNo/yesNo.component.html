@@ -1,0 +1,8 @@
+<div class="justcenter">
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <div mat-dialog-content>{{ data.message }}</div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="exit(false)">{{ data.noText }}</button>
+    <button mat-button cdkFocusInitial (click)="exit(true)">{{ data.yesText }}</button>
+  </div>
+</div>

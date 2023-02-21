@@ -1,0 +1,6 @@
+<div class="justcenter">
+  <p class="md-display-2">Email Confirmation</p>
+  <p *ngIf="isVerifired" class="md-headline">Your email has been successfully confirmed.</p>
+  <p *ngIf="isVerifired" class="md-headline">Wait {{time}} seconds for redirect</p>
+  <p *ngIf="isError" class="md-headline">Couldn't confirm email. Try again later.</p>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { checkEmailInSystemValidator } from 'src/app/shared/asyncvalidators/asyncValidators';
 import { IdentityService } from 'src/app/shared/services/identity/identity.service';
 
@@ -14,9 +15,10 @@ export class SignUpComponent implements OnInit {
   identityService: IdentityService;
 
   myForm: FormGroup;
-  constructor(identityService: IdentityService, public dialog: MatDialog) {
+  constructor(identityService: IdentityService, public dialog: MatDialog, private route: Router) {
     this.identityService = identityService;
   }
+
   ngOnInit() {
     this.myForm = this.initForm();
     this.myForm.valueChanges.subscribe(formValues => {
@@ -50,9 +52,7 @@ export class SignUpComponent implements OnInit {
   submit() {
     this.identityService.SignUp(this.myForm.value).subscribe(
       (res: any) => {
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
-        this.identityService.isAuth$.next(true);
+        this.route.navigate(['/error/confirmEmail']);
         this.dialog.closeAll();
       },
       err => {
